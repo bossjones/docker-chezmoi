@@ -8,7 +8,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 # ENV DEBIAN_FRONTEND noninteractive
 ENV LANG C.UTF-8
 
-RUN apt update && apt install -y curl git gnupg zsh tar software-properties-common vim fzf perl gettext direnv vim awscli wget build-essential bash-completion
+RUN apt update && apt install -y curl git gnupg zsh tar software-properties-common vim fzf perl gettext direnv vim awscli wget build-essential bash-completion sudo
 
 RUN sh -c "$(curl -fsLS https://chezmoi.io/get)" -- -b $HOME/.bin
 

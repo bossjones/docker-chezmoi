@@ -16,6 +16,8 @@ ENV PATH /root/bin:/root/.bin:/root/.local/bin:$PATH
 
 ENTRYPOINT ["/bin/bash"]
 
+RUN set -x; echo "[please run]  chezmoi init -R --debug -v --apply https://github.com/bossjones/zsh-dotfiles.git"
+
 # Ballerina runtime distribution filename.
 ARG BUILD_DATE
 ARG VCS_REF

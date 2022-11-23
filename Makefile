@@ -12,43 +12,19 @@ ifeq ($(TAG),@branch)
 	@echo $(value TAG)
 endif
 
-build:
-	docker build --build-arg VCS_REF=$(GIT_SHA) --build-arg BUILD_DATE=$(VERSION) --build-arg BUILD_DATE=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ') --tag $(username)/$(container_name):$(GIT_SHA) . ; \
-	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):latest
-	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):$(TAG)
+build-push-base:
+		docker buildx build \
+		--push \
+		--platform linux/arm/v7,linux/arm64/v8,linux/amd64 \
+		--build-arg VCS_REF=$(GIT_SHA) --build-arg BUILD_DATE=$(VERSION) --build-arg BUILD_DATE=$(shell date -u +'%Y-%m-%dT%H:%M:%SZ') \
+		--tag $(username)/$(container_name):latest .
 
-build-force:
-	docker build --rm --force-rm --pull --no-cache -t $(username)/$(container_name):$(GIT_SHA) . ; \
-	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):latest
-	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):$(TAG)
+build: build-push-base
 
-tag:
-	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):latest
-	docker tag $(username)/$(container_name):$(GIT_SHA) $(username)/$(container_name):$(TAG)
-
-build-push: build tag
-	docker push $(username)/$(container_name):latest
-	docker push $(username)/$(container_name):$(GIT_SHA)
-	docker push $(username)/$(container_name):$(TAG)
-
-build-push-version: build tag
-	docker push $(username)/$(container_name):$(TAG)
-
-build-push-version-force: build-force tag
-	docker push $(username)/$(container_name):$(TAG)
-
-build-push-version-dump: build tag
-	echo docker push $(username)/$(container_name):$(TAG)
-
-push:
-	docker push $(username)/$(container_name):latest
-	docker push $(username)/$(container_name):$(GIT_SHA)
-	docker push $(username)/$(container_name):$(TAG)
+build-push: build
 
 pull:
 	docker pull $(username)/$(container_name):latest
-	
-push-force: build-force push
 
 bash:
 	docker run \

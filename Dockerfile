@@ -10,13 +10,15 @@ ENV LANG C.UTF-8
 
 RUN apt update && apt install -y curl git gnupg zsh tar software-properties-common vim fzf perl gettext direnv vim awscli wget build-essential bash-completion sudo
 
-RUN sh -c "$(curl -fsLS https://chezmoi.io/get)" -- -b $HOME/.bin
+RUN sh -c "$(curl -fsLS get.chezmoi.io)" -- -b $HOME/bin -t v2.31.1
 
 ENV PATH /root/bin:/root/.bin:/root/.local/bin:$PATH
 
 ENTRYPOINT ["/bin/bash"]
 
 RUN set -x; echo "[please run]  chezmoi init -R --debug -v --apply https://github.com/bossjones/zsh-dotfiles.git"
+
+# chezmoi init -R --debug -v --apply https://github.com/bossjones/zsh-dotfiles.git
 
 # Ballerina runtime distribution filename.
 ARG BUILD_DATE

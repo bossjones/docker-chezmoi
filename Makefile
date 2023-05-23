@@ -26,6 +26,8 @@ build-push: build
 pull:
 	docker pull $(username)/$(container_name):latest
 
+# --platform linux/amd64
+
 bash:
 	docker run \
 	-it \

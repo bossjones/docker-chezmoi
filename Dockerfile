@@ -16,6 +16,8 @@ ENV PATH /root/bin:/root/.bin:/root/.local/bin:$PATH
 
 ENTRYPOINT ["/bin/bash"]
 
+ADD --chmod=0755 . /usr/local/bin/create_user_and_group.sh
+
 RUN set -x; echo "[please run]  chezmoi init -R --debug -v --apply https://github.com/bossjones/zsh-dotfiles.git"
 
 # chezmoi init -R --debug -v --apply https://github.com/bossjones/zsh-dotfiles.git

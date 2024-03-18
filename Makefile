@@ -37,3 +37,6 @@ bash:
 	--entrypoint "/bin/bash" \
 	$(username)/$(container_name):latest \
 	-l
+
+apply-branch:
+	chezmoi init -R --debug -v --apply https://github.com/bossjones/zsh-dotfiles.git --branch feature-dl-twitter
